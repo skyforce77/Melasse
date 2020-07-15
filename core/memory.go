@@ -20,3 +20,18 @@ func (mem *Memory) SetShort(addr uint16, val uint16) {
 	mem.data[addr] = byte((val & 0xFF00) >> 8)
 	mem.data[addr+1] = byte(val & 0xFF)
 }
+
+func (cpu *CPU) Push(val uint16) {
+	cpu.sp -= 1
+	cpu.memory.SetByte(cpu.sp, byte((val & 0xFF00) >> 8))
+	cpu.sp -= 1
+	cpu.memory.SetByte(cpu.sp, byte(val & 0xFF))
+}
+
+func (cpu *CPU) Pop() uint16 {
+	lsb := uint16(cpu.memory.ReadByte(cpu.sp))
+	cpu.sp += 1
+	msb := uint16(cpu.memory.ReadByte(cpu.sp))
+	cpu.sp += 1
+	return (msb << 8) | lsb
+}

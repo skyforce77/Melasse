@@ -9,7 +9,7 @@ type CPU struct {
 	memory Memory
 }
 
-func (cpu *CPU) step() {
+func (cpu *CPU) Step() {
 	id := cpu.memory.ReadByte(cpu.pc)
 	ext := false
 
